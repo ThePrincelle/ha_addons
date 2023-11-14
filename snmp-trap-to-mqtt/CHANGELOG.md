@@ -1,5 +1,9 @@
 <!-- https://developers.home-assistant.io/docs/add-ons/presentation#keeping-a-changelog -->
 
+## 1.0.6
+
+- Fix image name
+
 ## 1.0.5
 
 - Fix Dockerfile with missing gcc, musl-dev and python3-dev
