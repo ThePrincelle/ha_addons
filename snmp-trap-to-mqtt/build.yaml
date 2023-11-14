@@ -8,6 +8,6 @@ build_from:
 labels:
   org.opencontainers.image.title: "SNMP Traps Receiver to MQTT"
   org.opencontainers.image.description: "SNMP Traps Receiver to MQTT (Simple Network Management Protocol)."
-  org.opencontainers.image.source: "https://github.com/home-assistant/addons-example"
+  org.opencontainers.image.source: "https://github.com/ThePrincelle/ha_addons"
   org.opencontainers.image.licenses: "Apache License 2.0"
 
