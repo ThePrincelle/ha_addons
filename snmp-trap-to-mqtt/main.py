@@ -16,7 +16,7 @@ mqtt_host = options['mqtt_host']
 mqtt_port = options['mqtt_port']
 mqtt_topic = options['mqtt_topic']
 mqtt_user = options['mqtt_user']
-mqtt_pass = options['mqtt_pass']
+mqtt_pass = options['mqtt_password']
 
 client = paho.Client()
 client.username_pw_set(mqtt_user, mqtt_pass)
