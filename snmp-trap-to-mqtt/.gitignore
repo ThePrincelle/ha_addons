@@ -1,1 +1,3 @@
 venv/
+options.json
+received_traps.log

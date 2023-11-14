@@ -1,9 +1,23 @@
-import asyncio
 import paho.mqtt.client as paho
-import aiosnmp
+from pysnmp.entity import engine, config
+from pysnmp.carrier.asyncore.dgram import udp
+from pysnmp.entity.rfc3413 import ntfrcv
+import logging
 
 # Read options.json file
 import json
+
+# if file options.json not exist, create it
+import os.path
+if not os.path.isfile('options.json'):
+    with open('options.json', 'w') as outfile:
+        json.dump({
+            'mqtt_host': 'localhost',
+            'mqtt_port': 1883,
+            'mqtt_topic': 'snmp-trap',
+            'mqtt_user': '',
+            'mqtt_pass': ''
+        }, outfile)
 
 with open('options.json') as json_file:
     options = json.load(json_file)
@@ -16,30 +30,51 @@ mqtt_user = options['mqtt_user']
 mqtt_pass = options['mqtt_pass']
 
 client = paho.Client()
+client.username_pw_set(mqtt_user, mqtt_pass)
+client.connect(mqtt_host, mqtt_port)
 
+snmpEngine = engine.SnmpEngine()
 
-async def handler(host: str, port: int, message: aiosnmp.SnmpV2TrapMessage) -> None:
-    print(f"got packet from {host}:{port}")
-    for d in message.data.varbinds:
-        print(f"oid: {d.oid}, value: {d.value}")
+TrapAgentAddress='127.0.0.1'; #Trap listerner address
+Port=8000;  #trap listerner port
+
+logging.basicConfig(filename='received_traps.log', filemode='w', format='%(asctime)s - %(message)s', level=logging.INFO)
+
+logging.info("Agent is listening SNMP Trap on "+TrapAgentAddress+" , Port : " +str(Port))
+logging.info('--------------------------------------------------------------------------')
+
+print("Agent is listening SNMP Trap on "+TrapAgentAddress+" , Port : " +str(Port));
+
+config.addTransport(
+    snmpEngine,
+    udp.domainName + (1,),
+    udp.UdpTransport().openServerMode((TrapAgentAddress, Port))
+)
+
+#Configure community here
+config.addV1System(snmpEngine, 'my-area', 'public')
+
+def cbFun(snmpEngine, stateReference, contextEngineId, contextName,
+          varBinds, cbCtx):
+    print("Received new Trap message");
+    logging.info("Received new Trap message")
+    for name, val in varBinds:   
+        logging.info('%s = %s' % (name.prettyPrint(), val.prettyPrint()))
+        print('%s = %s' % (name.prettyPrint(), val.prettyPrint()))
         
         # Publish message to MQTT
         client.publish(mqtt_topic, {
-            'oid': d.oid,
-            'value': d.value
+            'oid': name.prettyPrint(),
+            'value': val.prettyPrint()
         })
 
+    logging.info("==== End of Incoming Trap ====")
+ntfrcv.NotificationReceiver(snmpEngine, cbFun)
 
-if __name__ == "__main__":
-    loop = asyncio.get_event_loop()
-    trap_server = aiosnmp.SnmpV2TrapServer(host="127.0.0.1", port=8000, communities=("public",), handler=handler)
-    transport, _ = loop.run_until_complete(trap_server.run())
-    
-    client.username_pw_set(mqtt_user, mqtt_pass)
-    client.connect(mqtt_host, mqtt_port)
+snmpEngine.transportDispatcher.jobStarted(1)  
 
-    try:
-        print(f"running server on {trap_server.host}:{trap_server.port}")
-        loop.run_forever()
-    finally:
-        transport.close()
+try:
+    snmpEngine.transportDispatcher.runDispatcher()
+except:
+    snmpEngine.transportDispatcher.closeDispatcher()
+    raise
