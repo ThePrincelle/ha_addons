@@ -7,18 +7,6 @@ import logging
 # Read options.json file
 import json
 
-# if file options.json not exist, create it
-import os.path
-if not os.path.isfile('options.json'):
-    with open('options.json', 'w') as outfile:
-        json.dump({
-            'mqtt_host': 'localhost',
-            'mqtt_port': 1883,
-            'mqtt_topic': 'snmp-trap',
-            'mqtt_user': '',
-            'mqtt_pass': ''
-        }, outfile)
-
 with open('options.json') as json_file:
     options = json.load(json_file)
     
