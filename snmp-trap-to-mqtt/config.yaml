@@ -1,7 +1,7 @@
 name: "SNMP Traps Receiver to MQTT"
 description: "SNMP Traps Receiver to MQTT (Simple Network Management Protocol)"
 url: "https://github.com/theprincelle/ha_addons/tree/main/snmp-trap-to-mqtt"
-version: "1.0.11"
+version: "1.0.12"
 slug: "smmp-traps-receiver-to-mqtt"
 init: false
 arch:

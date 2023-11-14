@@ -7,7 +7,7 @@ import logging
 # Read options.json file
 import json
 
-with open('data/options.json') as json_file:
+with open('/data/options.json') as json_file:
     options = json.load(json_file)
     
 # MQTT
