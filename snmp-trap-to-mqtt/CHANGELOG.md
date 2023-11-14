@@ -1,5 +1,9 @@
 <!-- https://developers.home-assistant.io/docs/add-ons/presentation#keeping-a-changelog -->
 
+## 1.0.13
+
+- Print options file content on startup
+
 ## 1.0.12
 
 - Fix options.json file location (again)

@@ -8,7 +8,8 @@ import logging
 import json
 
 with open('/data/options.json') as json_file:
-    options = json.load(json_file)
+    options = json.load(json_file)    
+    print(options)
     
 # MQTT
 mqtt_host = options['mqtt_host']
