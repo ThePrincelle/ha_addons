@@ -6,6 +6,11 @@ RUN \
   apk add --no-cache \
     python3
 
+# Install pip for python3
+RUN \
+  apk add --no-cache \
+    py3-pip
+
 # Install python requirements for add-on
 COPY requirements.txt /tmp/
 
