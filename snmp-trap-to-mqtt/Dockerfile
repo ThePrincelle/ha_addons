@@ -27,7 +27,7 @@ RUN \
 
 WORKDIR /data
 
-COPY main.py /data/
+COPY main.py /
 
 # Copy data for add-on
 COPY run.sh /
