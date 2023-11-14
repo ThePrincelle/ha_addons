@@ -1,5 +1,9 @@
 <!-- https://developers.home-assistant.io/docs/add-ons/presentation#keeping-a-changelog -->
 
+## 1.0.4
+
+- Fix requirements.txt
+
 ## 1.0.3
 
 - Replace aiosnmp with pysnmp
