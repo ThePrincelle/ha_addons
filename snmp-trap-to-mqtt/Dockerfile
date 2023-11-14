@@ -11,6 +11,13 @@ RUN \
   apk add --no-cache \
     py3-pip
 
+# Install what we need to build python packages (gcc, musl-dev, python3-dev)
+RUN \
+  apk add --no-cache \
+    gcc \
+    musl-dev \
+    python3-dev
+
 # Install python requirements for add-on
 COPY requirements.txt /tmp/
 
