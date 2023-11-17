@@ -10,7 +10,7 @@ Add-on documentation: <https://developers.home-assistant.io/docs/add-ons>
 
 This repository contains the following add-ons
 
-- [snmp-trap-to-mqtt](./snmp-trap-to-mqtt/README.md) - SNMP Traps Receiver to MQTT (Simple Network Management Protocol).
+- [sip-to-mqtt](./sip-to-mqtt/README.md) - SIP Monitoring to MQTT (Simple Network Management Protocol).
 
 <!--
 

@@ -1,0 +1,34 @@
+name: "SIP Monitoring to MQTT"
+description: "SIP Monitoring to MQTT (Simple Network Management Protocol)"
+url: "https://github.com/theprincelle/ha_addons/tree/main/sip-to-mqtt"
+version: "1.0.14"
+slug: "sip-to-mqtt"
+init: false
+arch:
+  - aarch64
+  - amd64
+  - armhf
+  - armv7
+  - i386
+startup: services
+ports:
+  8000/tcp: 8000
+options:
+  mqtt_host: ""
+  mqtt_port: 1883
+  mqtt_topic: "sip"
+  mqtt_user: ""
+  mqtt_password: ""
+  sip_domain: ""
+  sip_user: ""
+  sip_password: ""
+schema:
+  mqtt_host: str
+  mqtt_port: int
+  mqtt_topic: str
+  mqtt_user: str
+  mqtt_password: str
+  sip_domain: str
+  sip_user: str
+  sip_password: str
+image: "ghcr.io/theprincelle/ha-sip-to-mqtt-{arch}"
